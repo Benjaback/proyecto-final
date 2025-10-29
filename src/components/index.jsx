@@ -1,4 +1,3 @@
-// index.jsx
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Link, Routes, Route, useLocation } from 'react-router-dom';
 import TareasScreens from './tareasScreens';
@@ -6,10 +5,10 @@ import Completo from './Completo';
 import Crear from './crear';
 
 const colors = {
-    primary: 'blueviolet',
+    primary: '#0E7387',
     secondary: '#fff',
     textDefault: '#666777',
-    textActive: 'blueviolet',
+    textActive: '#0E7387',
     bgNavbar: '#fff',
 };
 
@@ -22,7 +21,7 @@ const NavMenu = ({ isAuthenticated, handleToggleSession }) => {
             margin: '10px 10px',
             borderRadius: '10px',
             padding: '0.3rem',
-            border: `1px solid ${colors.primary}`,
+            border: `2px solid ${colors.primary}`,
         },
         logo: {
             width: '28px',
@@ -35,16 +34,16 @@ const NavMenu = ({ isAuthenticated, handleToggleSession }) => {
             paddingLeft: '5px',
             transition: '0.3s color',
         },
-        loginButton: {
-            background: isAuthenticated ? 'transparent' : colors.primary,
-            border: `2px ${colors.primary} solid`,
-            borderRadius: '50px',
-            textDecoration: 'none',
-            color: isAuthenticated ? colors.primary : colors.secondary,
-            padding: '8px 15px',
-            fontSize: '15px',
-            cursor: 'pointer',
-        },
+        // loginButton: {
+        //     background: isAuthenticated ? 'transparent' : colors.primary,
+        //     border: `2px ${colors.primary} solid`,
+        //     borderRadius: '50px',
+        //     textDecoration: 'none',
+        //     color: isAuthenticated ? colors.primary : colors.secondary,
+        //     padding: '8px 15px',
+        //     fontSize: '15px',
+        //     cursor: 'pointer',
+        // },
         navLink: {
             color: colors.textDefault, 
             fontWeight: '500',
@@ -67,10 +66,7 @@ const NavMenu = ({ isAuthenticated, handleToggleSession }) => {
     return (
         <nav className="navbar navbar-expand-lg fixed-top" style={navStyles.navbar}>
             <div className="container-fluid">
-                {/* ... (Logo y Navbar Brand sin cambios) */}
-                <img src="/img/logo_de_alma_canina[1].png" style={navStyles.logo} alt="Logo Alma Canina" />
-                <Link className="navbar-brand me-auto" to="/" style={navStyles.navbarBrand}>Alma Canina</Link>
-
+                <Link className="navbar-brand me-auto" to="/" style={navStyles.navbarBrand}>Tareas Block</Link>
                 <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div className="offcanvas-header">
                         <h5 className="offcanvas-title" id="offcanvasNavbarLabel" style={{color: colors.primary}}>Alma Canina</h5>
