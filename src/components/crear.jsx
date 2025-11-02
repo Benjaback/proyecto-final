@@ -1,6 +1,4 @@
-// Crear.jsx
 import React, { useState } from 'react';
-
 
 function TaskItem({ task, onDelete }) {
     return (

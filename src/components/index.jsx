@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Link, Routes, Route, useLocation } from 'react-router-dom';
 import TareasScreens from './tareasScreens';
-import Completo from './Completo';
 import Crear from './crear';
 
 const colors = {
@@ -129,7 +128,6 @@ const Index = () => {
                     <Route path="/" element={<IndexContent />} /> 
                     <Route path="/tareas" element={<TareasScreens tareas={tareas} setTareas={setTareas} />} />
                     <Route path="/crear" element={<Crear tareas={tareas} setTareas={setTareas} />} />
-                    <Route path="/completadas" element={<Completo tareas={tareas} setTareas={setTareas} />} />
                     <Route path="*" element={<h2>404 | Contenido no encontrado</h2>} />
                 </Routes>
             </div>
