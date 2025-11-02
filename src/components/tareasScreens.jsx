@@ -12,7 +12,7 @@ const TareasScreens = ({ tareas, setTareas }) => {
                 <ul>
                     {tareas.map(tarea => (
                         <li key={tarea.id}>
-                            <strong>{tarea.nombre}</strong>: {tarea.tarea}
+                            <strong>{tarea.nombre}</strong>: {tarea.tarea} - Descripción: {tarea.descripcion} - Prioridad: {tarea.prioridad} - creada el: {tarea.fechaCreacion} - Vence el: {tarea.fechaVencimiento}
                         </li>
                     ))}
                 </ul>
