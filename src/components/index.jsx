@@ -12,7 +12,7 @@ const colors = {
     bgNavbar: '#fff',
 };
 
-const NavMenu = ({ isAuthenticated, handleToggleSession }) => {
+const NavMenu = ({ isAuthenticated, handleToggleSession, tareas }) => {
     const location = useLocation();
     const navStyles = {
         navbar: {
@@ -66,7 +66,9 @@ const NavMenu = ({ isAuthenticated, handleToggleSession }) => {
     return (
         <nav className="navbar navbar-expand-lg fixed-top" style={navStyles.navbar}>
             <div className="container-fluid">
-                <Link className="navbar-brand me-auto" to="/" style={navStyles.navbarBrand}>Tareas Block</Link>
+                <Link className="navbar-brand me-auto" to="/" style={navStyles.navbarBrand}>
+                    Tareas Block 
+                </Link>
                 <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div className="offcanvas-header">
                         <h5 className="offcanvas-title" id="offcanvasNavbarLabel" style={{color: colors.primary}}>Alma Canina</h5>
@@ -102,6 +104,8 @@ const NavMenu = ({ isAuthenticated, handleToggleSession }) => {
 
 const Index = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [tareas, setTareas] = useState([]); // Estado centralizado de tareas
+    
     const handleToggleSession = () => {
         setIsAuthenticated(prev => !prev);
     };
@@ -116,15 +120,16 @@ const Index = () => {
         <Router>
             <NavMenu 
                 isAuthenticated={isAuthenticated}
-                handleToggleSession={handleToggleSession} 
+                handleToggleSession={handleToggleSession}
+                tareas={tareas}
             />
             
             <div style={{marginTop: '80px', padding: '20px'}}>
                 <Routes>
                     <Route path="/" element={<IndexContent />} /> 
-                    <Route path="/tareas" element={<TareasScreens />} />
-                    <Route path="/crear" element={<Crear />} />
-                    <Route path="/completadas" element={<Completo />} />
+                    <Route path="/tareas" element={<TareasScreens tareas={tareas} setTareas={setTareas} />} />
+                    <Route path="/crear" element={<Crear tareas={tareas} setTareas={setTareas} />} />
+                    <Route path="/completadas" element={<Completo tareas={tareas} setTareas={setTareas} />} />
                     <Route path="*" element={<h2>404 | Contenido no encontrado</h2>} />
                 </Routes>
             </div>
