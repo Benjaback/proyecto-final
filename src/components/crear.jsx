@@ -20,7 +20,8 @@ function Crear({ tareas, setTareas }){
         nombre: '',
         tarea: '',
         descripcion: '',
-        prioridad: 'Seleccionar'
+        prioridad: 'Seleccionar',
+        fechaVencimiento: ''
     });
 
     const handleSubmit = (event) => {
