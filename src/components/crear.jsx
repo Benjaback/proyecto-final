@@ -89,6 +89,11 @@ function Crear({ tareas, setTareas }){
         }
         // FIN DE VALIDACIONES
 
+        // Confirmación antes de guardar
+        if (!window.confirm('¿Estás seguro de guardar esta tarea?')) {
+            return;
+        }
+
         const nuevaTarea = {
             id: Date.now(), 
             nombre: formData.nombre.trim(),
