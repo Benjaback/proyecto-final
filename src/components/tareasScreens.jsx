@@ -16,30 +16,50 @@ const TareasScreens = ({ tareas, setTareas }) => {
                 return 'text-gray-400';
         }
     };
+    const tareasPendientes = tareas.filter(t => t.estado !== 'completada');
     const handleDelete = (tareaId) => {
         if (window.confirm('¿Estás seguro de que deseas eliminar esta tarea?')) {
             const updatedTareas = tareas.filter(tarea => tarea.id !== tareaId);
             setTareas(updatedTareas);
         }
     }
+    const handleToggleEstado = (tareaId) => {
+        const updatedTareas = tareas.map(tarea => {
+            if (tarea.id === tareaId){
+                return {
+                    ...tarea,
+                    estado: tarea.estado === 'pendiente' ? 'completada' : 'pendiente',
+                    fechaCompletada: tarea.estado === 'pendiente' ? new Date().toLocaleDateString('es-ES') : null
+                };
+            }
+            return tarea;
+        });
+        setTareas(updatedTareas);
+    }
     return (
         <div className="max-w-3xl mx-auto p-6 bg-gray-800 rounded-xl shadow-2xl border-2 border-indigo-500/50 mb-12">
             
             <h2 className="text-3xl font-extrabold text-indigo-400 mb-6 text-center border-b border-gray-700 pb-3">
-                Tareas Pendientes ({tareas.length})
+                Tareas Pendientes ({tareasPendientes.length})
             </h2>
             <p className="text-gray-400 mb-6 text-center">Aquí se muestran todas las tareas creadas:</p>
-            {tareas.length === 0 ? (
+            {tareasPendientes.length === 0 ? (
                 <div className="p-8 bg-gray-700 rounded-lg border border-gray-600 text-center">
                     <p className="text-gray-300 italic">No hay tareas pendientes. ¡Ve a **"Agregar Tareas"** para crear una!</p>
                 </div>
             ) : (
                 <ul className="space-y-4">
-                    {tareas.map(tarea => (
+                    {tareasPendientes.map(tarea => (
                         <li 
                             key={tarea.id} 
                             className="p-4 bg-gray-700 rounded-lg border border-indigo-600/50 hover:border-indigo-500 transition duration-300 shadow-md"
                         >
+                            <button
+                                onClick={() => handleToggleEstado(tarea.id)}
+                                title="Marcar como completada"
+                            >
+                                Completar
+                            </button>
                             <button
                                 onClick={() => handleDelete(tarea.id)}
                                 title='Elmininar'

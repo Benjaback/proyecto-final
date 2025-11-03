@@ -8,7 +8,8 @@ function Crear({ tareas, setTareas }){
             tarea: '',
             descripcion: '',
             prioridad: 'Dificultad',
-            fechaVencimiento: ''
+            fechaVencimiento: '',
+            estado: 'pendiente'
         }
     });
 
@@ -87,8 +88,10 @@ function Crear({ tareas, setTareas }){
             tarea: formData.tarea.trim(),
             descripcion: formData.descripcion.trim(),
             prioridad: formData.prioridad,
+            estado: 'pendiente',
             fechaCreacion: new Date().toLocaleDateString('es-ES'),
-            fechaVencimiento: formData.fechaVencimiento
+            fechaVencimiento: formData.fechaVencimiento,
+            fechaCompletada: null
         };
 
         setTareas([...tareas, nuevaTarea]);
@@ -102,7 +105,7 @@ function Crear({ tareas, setTareas }){
         <div className="max-w-xl mx-auto p-6 bg-gray-800 rounded-xl shadow-2xl border-2 border-indigo-500/50 mb-12">
             
             <h2 className="text-3xl font-extrabold text-indigo-400 mb-6 text-center border-b border-gray-700 pb-3">
-                <span className="block mb-1"></span> Agregar Nueva Tarea <br /> ({tareas.length} pendientes)
+                <span className="block mb-1"></span> Agregar Nueva Tarea <br />
             </h2>
             
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
