@@ -1,36 +1,42 @@
-// Crear.jsx
 import React, { useState } from 'react';
 
-
-function TaskItem({ task, onDelete }) {
-    return (
-        <div>
-            <div>
-                <strong>{task.nombre}</strong>: {task.tarea}
-            </div>
-            <button onClick={() => onDelete(task.id)}>
-                Eliminar
-            </button>
-        </div>
-    );
-}
-
+// function TaskItem({ task, onDelete }) {
+//     return (
+//         <div>
+//             <div>
+//                 <strong>{task.nombre}</strong>: {task.tarea}
+//             </div>
+//             <button onClick={() => onDelete(task.id)}>
+//                 Eliminar
+//             </button>
+//         </div>
+//     );
+// }
 function Crear({ tareas, setTareas }){
     const [formData, setFormData] = useState({
         nombre: '',
         tarea: '',
         descripcion: '',
-        prioridad: 'Seleccionar',
+        prioridad: 'Dificultad',
         fechaVencimiento: ''
     });
+
+    // Controlador genérico para actualizar el estado del formulario
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        // Validación
         if (formData.nombre.trim() === '' || formData.tarea.trim() === '') {
-            alert('Por favor, completa todos los campos');
+            alert('Por favor, completa los campos Nombre y Tarea.');
             return;
         }
+        
+
 
         const nuevaTarea = {
             id: Date.now(), 
@@ -45,83 +51,97 @@ function Crear({ tareas, setTareas }){
 
         setTareas([...tareas, nuevaTarea]);
 
-
+        // Resetear el formulario
         setFormData({ nombre: '', tarea: '', descripcion: '', prioridad: 'Dificultad', fechaVencimiento: '' });
     };
 
-    const handleDelete = (tareaId) => {
-        const nuevasTareas = tareas.filter(tarea => tarea.id !== tareaId);
-        setTareas(nuevasTareas);
-    };
-
+    // Clases comunes para los inputs y selects
+    const inputClasses = "w-full p-3 mb-4 rounded-lg bg-gray-700 border-2 border-gray-600 focus:border-indigo-500 text-gray-100 placeholder-gray-400 transition duration-300 focus:outline-none";
+    
     return(
-        <div>
-            <h2> Lista de Tareas ({tareas.length})</h2>
+        <div className="max-w-xl mx-auto p-6 bg-gray-800 rounded-xl shadow-2xl border-2 border-indigo-500/50 mb-12">
             
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="nombre"
-                    placeholder="Nombre"
-                    value={formData.nombre}
-                    onChange={(event) => setFormData({ ...formData, nombre: event.target.value })}
-                />
-                <input
-                    type="text"
-                    name="tarea"
-                    placeholder="Tarea"
-                    value={formData.tarea}
-                    onChange={(event) => setFormData({ ...formData, tarea: event.target.value })}
-                />
-                 <input
-                    type="text"
-                    name="descripcion"
-                    placeholder="Descripcion"
-                    value={formData.descripcion}
-                    onChange={(event) => setFormData({ ...formData, descripcion: event.target.value })}
-                />
-                <select
-                    name="prioridad"
-                    value={formData.prioridad}
-                    onChange={(event) => setFormData({ ...formData, prioridad: event.target.value })}
-                >
-                    <option value="Dificultad">Dificultad</option>
-                    <option value="baja">Baja</option>
-                    <option value="media">Media</option>
-                    <option value="alta">Alta</option>
-                </select>
-                <input
-                type="date"
-                name='fechaVencimiento'
-                placeholder='Fecha de vencimiento'
-                value={formData.fechaVencimiento}
-                onChange={(event) => setFormData({ ...formData, fechaVencimiento: event.target.value })}
-                />
+            <h2 className="text-3xl font-extrabold text-indigo-400 mb-6 text-center border-b border-gray-700 pb-3">
+                <span className="block mb-1"></span> Agregar Nueva Tarea <br /> ({tareas.length} pendientes)
+            </h2>
+            
+            <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Campo Nombre */}
+                <div>
+                    <input
+                        type="text"
+                        name="nombre"
+                        placeholder="Nombre de la Tarea (Ej: Proyecto X)"
+                        value={formData.nombre}
+                        onChange={handleChange}
+                        className={inputClasses}
+                        required
+                    />
+                </div>
                 
-                <button type="submit">
-                    Agregar Tarea
+                {/* Campo Tarea */}
+                <div>
+                    <input
+                        type="text"
+                        name="tarea"
+                        placeholder="Detalle principal (Ej: Codificar componente)"
+                        value={formData.tarea}
+                        onChange={handleChange}
+                        className={inputClasses}
+                        required
+                    />
+                </div>
+                
+                {/* Campo Descripción */}
+                <div>
+                    <input
+                        type="text"
+                        name="descripcion"
+                        placeholder="Descripción opcional más detallada"
+                        value={formData.descripcion}
+                        onChange={handleChange}
+                        className={inputClasses}
+                    />
+                </div>
+                
+                {/* Selector de Prioridad y Fecha de Vencimiento en la misma línea (flex) */}
+                <div className="flex space-x-4">
+                    {/* Selector de Prioridad */}
+                    <div className="flex-1">
+                        <select
+                            name="prioridad"
+                            value={formData.prioridad}
+                            onChange={handleChange}
+                            className={`${inputClasses} appearance-none cursor-pointer`}
+                        >
+                            <option value="Dificultad" disabled>Seleccionar Dificultad</option>
+                            <option value="baja" className="text-green-400 font-medium">Baja</option>
+                            <option value="media" className="text-yellow-400 font-medium">Media</option>
+                            <option value="alta" className="text-red-400 font-medium">Alta</option>
+                        </select>
+                    </div>
+
+                    {/* Fecha de Vencimiento */}
+                    <div className="flex-1">
+                        <input
+                            type="date"
+                            name='fechaVencimiento'
+                            placeholder='Fecha de vencimiento'
+                            value={formData.fechaVencimiento}
+                            onChange={handleChange}
+                            className={inputClasses}
+                        />
+                    </div>
+                </div>
+                
+                {/* Botón de Submit */}
+                <button 
+                    type="submit"
+                    className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-md transition duration-300 transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
+                >
+                    Guardar Tarea
                 </button>
             </form>
-
-            {/* {tareas.length === 0 && (
-                <div>
-                    <h3>No hay tareas cargadas</h3>
-                    <p>¡Agrega tu primera tarea!</p>
-                </div>
-            )}
-
-            {tareas.length > 0 && (
-                <div>
-                    <h3>Tus tareas:</h3>
-                    {tareas.map(tarea => (
-                        <TaskItem
-                            key={tarea.id}
-                            task={tarea}
-                            onDelete={handleDelete}
-                        />
-                    ))}
-                </div>
-            )} */}
         </div>
     );
 }
