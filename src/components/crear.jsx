@@ -24,19 +24,70 @@ function Crear({ tareas, setTareas }){
     // Controlador genérico para actualizar el estado del formulario
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        const limites = {
+            nombre: 50,
+            tarea: 100,
+            descripcion: 200
+        };
+
+        if (name === 'nombre' || name === 'tarea' || name === 'descripcion') {
+            let valorLimpio = value
+            .replace(/[0-9]/g, '')
+            .replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]/g, '');
+
+            if (valorLimpio.length > limites[name]) {
+                valorLimpio = valorLimpio.substring(0, limites[name]);
+            }
+
+            setFormData(prevData => ({ ...prevData, [name]: valorLimpio }));
+        } else {
+            setFormData(prevData => ({ ...prevData, [name]: value }));
+        }
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        // Validación
+        // VALIDACIONES
         if (formData.nombre.trim() === '' || formData.tarea.trim() === '') {
             alert('Por favor, completa los campos Nombre y Tarea.');
             return;
         }
-        
 
+        if (formData.prioridad === 'Dificultad') {
+            alert('Por favor, selecciona una dificultad');
+            return;
+        }
+
+        if (formData.nombre.trim().length < 3) {
+            alert('El nombre debe tener al menos 3 caracteres.');
+            return;
+        }
+        if (formData.tarea.trim().length < 5) {
+            alert('La tarea debe tener al menos 5 caracteres.');
+            return;
+        }
+
+        if (formData.descripcion.trim().length > 0 && formData.descripcion.trim().length < 10) {
+            alert('La descripción debe tener al menos 10 caracteres.');
+            return;
+        }
+        
+        if (formData.fechaVencimiento){
+            const fechaSeleccionada = new Date(formData.fechaVencimiento);
+            const hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+
+            if (fechaSeleccionada < hoy) {
+                alert('no se puede poner una fecha anterior a hoy')
+                return;
+            }
+        }
+        if (/^\s*$/.test(formData.nombre)) {
+            alert('El nombre no puede ser solo espacios en blanco.');
+            return;
+        }
+        // FIN DE VALIDACIONES
 
         const nuevaTarea = {
             id: Date.now(), 
@@ -75,8 +126,11 @@ function Crear({ tareas, setTareas }){
                         value={formData.nombre}
                         onChange={handleChange}
                         className={inputClasses}
-                        required
+                        
                     />
+                    <small className='text-gray-400 text-xs'>
+                        {formData.nombre.length}/50
+                    </small>
                 </div>
                 
                 {/* Campo Tarea */}
@@ -88,8 +142,12 @@ function Crear({ tareas, setTareas }){
                         value={formData.tarea}
                         onChange={handleChange}
                         className={inputClasses}
-                        required
+                        
+                     
                     />
+                    <small className='text-gray-400 text-xs'>
+                        {formData.tarea.length}/100
+                    </small>
                 </div>
                 
                 {/* Campo Descripción */}
@@ -102,6 +160,9 @@ function Crear({ tareas, setTareas }){
                         onChange={handleChange}
                         className={inputClasses}
                     />
+                    <small className='text-gray-400 text-xs'>
+                        {formData.descripcion.length}/200
+                    </small>
                 </div>
                 
                 {/* Selector de Prioridad y Fecha de Vencimiento en la misma línea (flex) */}

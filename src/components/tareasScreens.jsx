@@ -15,7 +15,12 @@ const TareasScreens = ({ tareas, setTareas }) => {
                 return 'text-gray-400';
         }
     };
-
+    const handleDelete = (tareaId) => {
+        if (window.confirm('¿Estás seguro de que deseas eliminar esta tarea?')) {
+            const updatedTareas = tareas.filter(tarea => tarea.id !== tareaId);
+            setTareas(updatedTareas);
+        }
+    }
     return (
         <div className="max-w-3xl mx-auto p-6 bg-gray-800 rounded-xl shadow-2xl border-2 border-indigo-500/50 mb-12">
             
@@ -36,6 +41,12 @@ const TareasScreens = ({ tareas, setTareas }) => {
                             key={tarea.id} 
                             className="p-4 bg-gray-700 rounded-lg border border-indigo-600/50 hover:border-indigo-500 transition duration-300 shadow-md"
                         >
+                            <button
+                                onClick={() => handleDelete(tarea.id)}
+                                title='Elmininar'
+                            >
+                                Eliminar*
+                            </button>
                             {/* Línea principal: Nombre y Tarea */}
                             <p className="text-lg text-gray-100 mb-2">
                                 <span className="font-bold text-indigo-300">{tarea.nombre}</span>: {tarea.tarea}
