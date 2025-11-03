@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import ConfirmModal from './ConfirmModal';
 
 function Crear({ tareas, setTareas }){
     const { register, handleSubmit, watch, reset, setValue } = useForm({
@@ -12,41 +13,58 @@ function Crear({ tareas, setTareas }){
             estado: 'pendiente'
         }
     });
-
+    const [showModal, setShowModal] = useState(false);
+    const [formDataToSave, setFormDataToSave] = useState(null);
     
     const nombreValue = watch('nombre') || '';
     const tareaValue = watch('tarea') || '';
     const descripcionValue = watch('descripcion') || '';
-
     
     const handleInputChange = (event, fieldName, maxLength) => {
         let value = event.target.value;
-        
-        
         value = value
             .replace(/[0-9]/g, '')
             .replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]/g, '');
         
-        
         if (value.length > maxLength) {
             value = value.substring(0, maxLength);
         }
-        
         setValue(fieldName, value);
     };
+    const handleCancelSave = () => {
+        setShowModal(false);
+        setFormDataToSave(null);
+    };
+    const handleConfirmSave = () => {
+        if (!formDataToSave) return;
+        const formData = formDataToSave;
+        const nuevaTarea = {
+            id: Date.now(), 
+            nombre: formData.nombre.trim(),
+            tarea: formData.tarea.trim(),
+            descripcion: formData.descripcion.trim(),
+            prioridad: formData.prioridad,
+            estado: 'pendiente',
+            fechaCreacion: new Date().toLocaleDateString('es-ES'),
+            fechaVencimiento: formData.fechaVencimiento,
+            fechaCompletada: null
+        };
+        setTareas([...tareas, nuevaTarea]);
+        setShowModal(false);
+        setFormDataToSave(null);
+        reset();
+    };
+
 
     const onSubmit = (formData) => {
-        // VALIDACIONES
         if (formData.nombre.trim() === '' || formData.tarea.trim() === '') {
             alert('Por favor, completa los campos Nombre y Tarea.');
             return;
         }
-
         if (formData.prioridad === 'Dificultad') {
             alert('Por favor, selecciona una dificultad');
             return;
         }
-
         if (formData.nombre.trim().length < 3) {
             alert('El nombre debe tener al menos 3 caracteres.');
             return;
@@ -55,12 +73,10 @@ function Crear({ tareas, setTareas }){
             alert('La tarea debe tener al menos 5 caracteres.');
             return;
         }
-
         if (formData.descripcion.trim().length > 0 && formData.descripcion.trim().length < 10) {
             alert('La descripción debe tener al menos 10 caracteres.');
             return;
         }
-        
         if (formData.fechaVencimiento){
             const fechaSeleccionada = new Date(formData.fechaVencimiento);
             const hoy = new Date();
@@ -75,28 +91,8 @@ function Crear({ tareas, setTareas }){
             alert('El nombre no puede ser solo espacios en blanco.');
             return;
         }
-        // FIN DE VALIDACIONES
-
-        // Confirmación antes de guardar
-        if (!window.confirm('¿Estás seguro de guardar esta tarea?')) {
-            return;
-        }
-
-        const nuevaTarea = {
-            id: Date.now(), 
-            nombre: formData.nombre.trim(),
-            tarea: formData.tarea.trim(),
-            descripcion: formData.descripcion.trim(),
-            prioridad: formData.prioridad,
-            estado: 'pendiente',
-            fechaCreacion: new Date().toLocaleDateString('es-ES'),
-            fechaVencimiento: formData.fechaVencimiento,
-            fechaCompletada: null
-        };
-
-        setTareas([...tareas, nuevaTarea]);
-
-        reset();
+        setFormDataToSave(formData);
+        setShowModal(true); 
     };
 
     const inputClasses = "w-full p-3 mb-4 rounded-lg bg-gray-700 border-2 border-gray-600 focus:border-indigo-500 text-gray-100 placeholder-gray-400 transition duration-300 focus:outline-none";
@@ -109,7 +105,7 @@ function Crear({ tareas, setTareas }){
             </h2>
             
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-               
+                
                 <div>
                     <input
                         type="text"
@@ -150,7 +146,6 @@ function Crear({ tareas, setTareas }){
                 </div>
 
                 <div className="flex space-x-4">
-                    {/* Selector de Prioridad */}
                     <div className="flex-1">
                         <select
                             {...register('prioridad')}
@@ -180,6 +175,12 @@ function Crear({ tareas, setTareas }){
                     Guardar Tarea
                 </button>
             </form>
+            <ConfirmModal
+                show={showModal}
+                onConfirm={handleConfirmSave}
+                onCancel={handleCancelSave}
+                data={formDataToSave || {}}
+            />
         </div>
     );
 }
