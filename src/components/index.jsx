@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Link, Routes, Route, useLocation } from 'react
 import TareasScreens from './tareasScreens'; 
 import Crear from './crear'; 
 import Layout from './layout'; 
+import Terminado from './endScreen';
 
 const themeColors = {
     primary: 'text-indigo-400', // El color brillante para el logo y activo
@@ -21,7 +22,7 @@ const AppFooter = () => {
                         <span className="font-semibold text-indigo-400">Tareas Block</span> &copy; {new Date().getFullYear()}
                     </p>
                     <p>
-                        Diseñado con <span className="text-red-500">♥</span> y Tailwind CSS
+                        Diseñado por Villarroel Loana, Villanueva Benjamin, Marin Marisol
                     </p>
                     <p>
                         <a href="#contacto" className="hover:text-indigo-300 transition duration-150">Contacto</a> | 
@@ -67,7 +68,7 @@ const NavMenu = ({ isAuthenticated, handleToggleSession, tareas }) => {
                     <Link to="/" className={getLinkClasses('/')}>Inicio</Link>
                     <Link to="/tareas" className={getLinkClasses('/tareas')}>Tareas Pendientes</Link>
                     <Link to="/crear" className={getLinkClasses('/crear')}>Agregar Tareas</Link>
-                    <Link to="/completadas" className={getLinkClasses('/completadas')}>Tareas Terminadas</Link>
+                    <Link to="/terminado" className={getLinkClasses('/terminado')}>Tareas Terminadas</Link>
                 </div>
                 <button 
                     className="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-700 focus:outline-none" 
@@ -85,7 +86,7 @@ const NavMenu = ({ isAuthenticated, handleToggleSession, tareas }) => {
                     <Link to="/" className={getLinkClasses('/')}>Inicio</Link>
                     <Link to="/tareas" className={getLinkClasses('/tareas')}>Tareas Pendientes</Link>
                     <Link to="/crear" className={getLinkClasses('/crear')}>Agregar Tareas</Link>
-                    <Link to="/completadas" className={getLinkClasses('/completadas')}>Tareas Terminadas</Link>
+                    <Link to="/terminado" className={getLinkClasses('/terminado')}>Tareas Terminadas</Link>
                 </div>
             </div>
         </nav>
@@ -112,7 +113,7 @@ const Index = () => {
                     <Route path="/" element={<Layout />} /> 
                     <Route path="/tareas" element={<TareasScreens tareas={tareas} setTareas={setTareas} />} />
                     <Route path="/crear" element={<Crear tareas={tareas} setTareas={setTareas} />} />
-                    <Route path="*" element={<h2 className="text-xl text-red-400 mt-8">404 | Contenido no encontrado</h2>} />
+                    <Route path="/terminado" element={<Terminado tareas={tareas} setTareas={setTareas} />} />
                 </Routes>
             </div>
             <AppFooter />
