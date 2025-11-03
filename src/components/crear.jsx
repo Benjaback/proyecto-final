@@ -1,53 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
-// function TaskItem({ task, onDelete }) {
-//     return (
-//         <div>
-//             <div>
-//                 <strong>{task.nombre}</strong>: {task.tarea}
-//             </div>
-//             <button onClick={() => onDelete(task.id)}>
-//                 Eliminar
-//             </button>
-//         </div>
-//     );
-// }
 function Crear({ tareas, setTareas }){
-    const [formData, setFormData] = useState({
-        nombre: '',
-        tarea: '',
-        descripcion: '',
-        prioridad: 'Dificultad',
-        fechaVencimiento: ''
+    const { register, handleSubmit, watch, reset, setValue } = useForm({
+        defaultValues: {
+            nombre: '',
+            tarea: '',
+            descripcion: '',
+            prioridad: 'Dificultad',
+            fechaVencimiento: ''
+        }
     });
 
-    // Controlador genérico para actualizar el estado del formulario
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        const limites = {
-            nombre: 50,
-            tarea: 100,
-            descripcion: 200
-        };
+    
+    const nombreValue = watch('nombre') || '';
+    const tareaValue = watch('tarea') || '';
+    const descripcionValue = watch('descripcion') || '';
 
-        if (name === 'nombre' || name === 'tarea' || name === 'descripcion') {
-            let valorLimpio = value
+    
+    const handleInputChange = (event, fieldName, maxLength) => {
+        let value = event.target.value;
+        
+        
+        value = value
             .replace(/[0-9]/g, '')
             .replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]/g, '');
-
-            if (valorLimpio.length > limites[name]) {
-                valorLimpio = valorLimpio.substring(0, limites[name]);
-            }
-
-            setFormData(prevData => ({ ...prevData, [name]: valorLimpio }));
-        } else {
-            setFormData(prevData => ({ ...prevData, [name]: value }));
+        
+        
+        if (value.length > maxLength) {
+            value = value.substring(0, maxLength);
         }
+        
+        setValue(fieldName, value);
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
+    const onSubmit = (formData) => {
         // VALIDACIONES
         if (formData.nombre.trim() === '' || formData.tarea.trim() === '') {
             alert('Por favor, completa los campos Nombre y Tarea.');
@@ -79,7 +66,7 @@ function Crear({ tareas, setTareas }){
             hoy.setHours(0, 0, 0, 0);
 
             if (fechaSeleccionada < hoy) {
-                alert('no se puede poner una fecha anterior a hoy')
+                alert('No se puede poner una fecha anterior a hoy.')
                 return;
             }
         }
@@ -104,14 +91,11 @@ function Crear({ tareas, setTareas }){
             fechaVencimiento: formData.fechaVencimiento
         };
 
-
         setTareas([...tareas, nuevaTarea]);
 
-        // Resetear el formulario
-        setFormData({ nombre: '', tarea: '', descripcion: '', prioridad: 'Dificultad', fechaVencimiento: '' });
+        reset();
     };
 
-    // Clases comunes para los inputs y selects
     const inputClasses = "w-full p-3 mb-4 rounded-lg bg-gray-700 border-2 border-gray-600 focus:border-indigo-500 text-gray-100 placeholder-gray-400 transition duration-300 focus:outline-none";
     
     return(
@@ -121,63 +105,52 @@ function Crear({ tareas, setTareas }){
                 <span className="block mb-1"></span> Agregar Nueva Tarea <br /> ({tareas.length} pendientes)
             </h2>
             
-            <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Campo Nombre */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+               
                 <div>
                     <input
                         type="text"
-                        name="nombre"
+                        {...register('nombre')}
                         placeholder="Nombre de la Tarea (Ej: Proyecto X)"
-                        value={formData.nombre}
-                        onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, 'nombre', 50)}
                         className={inputClasses}
-                        
                     />
                     <small className='text-gray-400 text-xs'>
-                        {formData.nombre.length}/50
+                        {nombreValue.length}/50
                     </small>
                 </div>
                 
-                {/* Campo Tarea */}
                 <div>
                     <input
                         type="text"
-                        name="tarea"
+                        {...register('tarea')}
                         placeholder="Detalle principal (Ej: Codificar componente)"
-                        value={formData.tarea}
-                        onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, 'tarea', 100)}
                         className={inputClasses}
-                        
-                     
                     />
                     <small className='text-gray-400 text-xs'>
-                        {formData.tarea.length}/100
+                        {tareaValue.length}/100
                     </small>
                 </div>
                 
-                {/* Campo Descripción */}
                 <div>
                     <input
                         type="text"
-                        name="descripcion"
+                        {...register('descripcion')}
                         placeholder="Descripción opcional más detallada"
-                        value={formData.descripcion}
-                        onChange={handleChange}
+                        onChange={(e) => handleInputChange(e, 'descripcion', 200)}
                         className={inputClasses}
                     />
                     <small className='text-gray-400 text-xs'>
-                        {formData.descripcion.length}/200
+                        {descripcionValue.length}/200
                     </small>
                 </div>
-                
-                {/* Selector de Prioridad y Fecha de Vencimiento en la misma línea (flex) */}
+
                 <div className="flex space-x-4">
                     {/* Selector de Prioridad */}
                     <div className="flex-1">
                         <select
-                            name="prioridad"
-                            value={formData.prioridad}
-                            onChange={handleChange}
+                            {...register('prioridad')}
                             className={`${inputClasses} appearance-none cursor-pointer`}
                         >
                             <option value="Dificultad" disabled>Seleccionar Dificultad</option>
@@ -187,20 +160,16 @@ function Crear({ tareas, setTareas }){
                         </select>
                     </div>
 
-                    {/* Fecha de Vencimiento */}
                     <div className="flex-1">
                         <input
                             type="date"
-                            name='fechaVencimiento'
+                            {...register('fechaVencimiento')}
                             placeholder='Fecha de vencimiento'
-                            value={formData.fechaVencimiento}
-                            onChange={handleChange}
                             className={inputClasses}
                         />
                     </div>
                 </div>
                 
-                {/* Botón de Submit */}
                 <button 
                     type="submit"
                     className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-md transition duration-300 transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
