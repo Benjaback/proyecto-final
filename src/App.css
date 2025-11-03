@@ -34,15 +34,10 @@
     transform: rotate(360deg);
   }
 }
-
-#Dark{
-  background-color: #282c34;
-  color: #fff;
+/* Estilos extras en general */
+body {
+  margin: 0;
+  padding: 0;
+  background: #111827;
 }
-#Dark a{
-  color: #eee;
-}
-#Light{
-  background-color: #fff;
-  color: #282c34;
-}
+   
