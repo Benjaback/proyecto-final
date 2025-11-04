@@ -37,7 +37,7 @@ const ConfirmModal = ({ show, onConfirm, onCancel, data }) => {
                         <span className="font-semibold text-indigo-300">Vencimiento:</span> {data.fechaVencimiento || 'No especificado'}
                     </p>
                 </div>
-                <div className="flex justify-end space-x-3">
+                <div className="flex justify-center space-x-3">
                     <button
                         onClick={onCancel}
                         className="py-2 px-4 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition duration-200"

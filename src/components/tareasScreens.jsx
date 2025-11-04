@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import ConfirmModal from './ConfirmModal';
+import ActionConfirmModal from './ActionConfirmModal';
 
 const TareasScreens = ({ tareas, setTareas }) => {
     const [showModal, setShowModal] = useState(false);
@@ -131,7 +131,7 @@ const TareasScreens = ({ tareas, setTareas }) => {
                     ))}
                 </ul>
             )}
-            <ConfirmModal
+            <ActionConfirmModal
                 show={showModal}
                 onConfirm={handleModalConfirm}
                 onCancel={handleModalCancel}
