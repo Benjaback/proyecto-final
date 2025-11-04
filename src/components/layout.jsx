@@ -1,6 +1,10 @@
 import React from 'react';
 
-const Layout = () => {
+const Layout = ({ tareas, setTareas }) => {
+    const tareasCompletadas = tareas.filter(t => t.estado === 'completada');
+    const tareasPendientes = tareas.filter(t => !t.estado || t.estado === 'pendiente');
+    const tareasPrioridadAlta = tareas.filter(t => t.prioridad && t.prioridad.toLowerCase() === 'alta' && (!t.estado || t.estado === 'pendiente'));
+
     return (
         <div className="min-h-screen bg-gray-900 text-gray-100 p-4 sm:p-8 font-sans">
             <header className="text-center mb-10">
@@ -21,8 +25,21 @@ const Layout = () => {
                         aqui va la vista de inicio
                     </p>
                     <div className="contendor-pendientes bg-gray-700 p-4 rounded-xl border border-gray-600">
-                        <h3 className="text-xl font-semibold">contenido aqui referente</h3>
-                        <p className="text-sm text-gray-400 mt-1">Énfasis en lo que necesita atención inmediata.</p>
+                        {tareasPendientes.length === 0 ? (
+                            <p className="text-gray-400">No hay tareas pendientes</p>
+                        ) : (
+                            <ul className="space-y-2">
+                                {tareasPendientes.map(tarea => (
+                                    <li key={tarea.id} className="text-gray-300">
+                                        Nombre: {tarea.nombre}
+                                        {tarea.fechaVencimiento && (
+                                            <p>Vence el: {tarea.fechaVencimiento}</p>
+                                        )}
+                                        Descripcion {tarea.descripcion}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                 </section>
                 <section 
@@ -37,8 +54,18 @@ const Layout = () => {
                     </p>
                     
                     <div className="contendor-terminados bg-gray-700 p-4 rounded-xl border border-gray-600">
-                        <h3 className="text-xl font-semibold">contenido aqui referente</h3>
-                        <p className="text-sm text-gray-400 mt-1">¡Felicidades por lo completado!</p>
+                        {tareasCompletadas.length === 0 ? (
+                            <p className="text-gray-400">No hay tareas completadas</p>
+                        ) : (
+                            <ul className="space-y-2">
+                                {tareasCompletadas.map(tarea => (
+                                    <li key={tarea.id} className="text-gray-300">
+                                        Nombre: {tarea.nombre}
+                                        <p>Completada el: {tarea.fechaCompletada}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                 </section>
                 <section 
@@ -46,14 +73,27 @@ const Layout = () => {
                     aria-label="Contenedor Adicional"
                 >
                     <h2 className="text-2xl font-bold mb-4 text-pink-400">
-                        Otras Funcionalidades
+                        Prioridad Alta
                     </h2>
                     <p className="text-gray-300 italic mb-4">
-                        aqui va la vista de inicio
+                        Tareas urgentes que requieren atención inmediata
                     </p>
                     <div className="contendor bg-gray-700 p-4 rounded-xl border border-gray-600">
-                        <h3 className="text-xl font-semibold">contenido aqui referente</h3>
-                        <p className="text-sm text-gray-400 mt-1">Espacio para notas o ajustes.</p>
+                        {tareasPrioridadAlta.length === 0 ? (
+                            <p className="text-gray-400">No hay tareas de prioridad alta</p>
+                        ) : (
+                            <ul className="space-y-2">
+                                {tareasPrioridadAlta.map(tarea => (
+                                    <li key={tarea.id} className="text-gray-300">
+                                        Nombre: {tarea.nombre}
+                                        <p className="text-sm">Prioridad: <span className="text-red-400 font-semibold">{tarea.prioridad}</span></p>
+                                        {tarea.fechaVencimiento && (
+                                            <p className="text-sm">Vence el: {tarea.fechaVencimiento}</p>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                 </section>
 

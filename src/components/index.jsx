@@ -106,7 +106,7 @@ const AppFooter = () => {
                 />
                 <div className="pt-24 px-4 w-full min-h-screen bg-gray-900">
                     <Routes>
-                        <Route path="/" element={<Layout />} /> 
+                        <Route path="/" element={<Layout tareas={tareas} setTareas={setTareas} />} />
                         <Route path="/tareas" element={<TareasScreens tareas={tareas} setTareas={setTareas} />} />
                         <Route path="/crear" element={<Crear tareas={tareas} setTareas={setTareas} />} />
                         <Route path="/terminado" element={<Terminado tareas={tareas} setTareas={setTareas} />} />
