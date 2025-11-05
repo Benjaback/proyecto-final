@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import ConfirmModal from './ConfirmModal';
+import TerminalModal from './terminalMODAL';
+import { Terminal } from "lucide-react";
 
 const Terminado = ({ tareas, setTareas }) => {
     const [showModal, setShowModal] = useState(false);
@@ -141,7 +142,7 @@ const Terminado = ({ tareas, setTareas }) => {
                 </ul>
             )}
 
-            <ConfirmModal
+            <TerminalModal
                 show={showModal}
                 onConfirm={handleModalConfirm}
                 onCancel={handleModalCancel}
