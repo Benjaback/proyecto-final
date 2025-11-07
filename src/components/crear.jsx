@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import ConfirmModal from './ConfirmModal';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Crear({ tareas, setTareas }){
     const { register, handleSubmit, watch, reset, setValue } = useForm({
@@ -58,23 +60,23 @@ function Crear({ tareas, setTareas }){
 
     const onSubmit = (formData) => {
         if (formData.nombre.trim() === '' || formData.tarea.trim() === '') {
-            alert('Por favor, completa los campos Nombre y Tarea.');
+            toast.error('Por favor, completa los campos Nombre y Tarea.');
             return;
         }
         if (formData.prioridad === 'Dificultad') {
-            alert('Por favor, selecciona una dificultad');
+            toast.error('Por favor, selecciona una dificultad.');
             return;
         }
         if (formData.nombre.trim().length < 3) {
-            alert('El nombre debe tener al menos 3 caracteres.');
+            toast.error('El nombre debe tener al menos 3 caracteres.');
             return;
         }
         if (formData.tarea.trim().length < 5) {
-            alert('La tarea debe tener al menos 5 caracteres.');
+            toast.error('La tarea debe tener al menos 5 caracteres.');
             return;
         }
         if (formData.descripcion.trim().length > 0 && formData.descripcion.trim().length < 10) {
-            alert('La descripción debe tener al menos 10 caracteres.');
+            toast.error('La descripción debe tener al menos 10 caracteres.');
             return;
         }
         if (formData.fechaVencimiento){
@@ -83,12 +85,12 @@ function Crear({ tareas, setTareas }){
             hoy.setHours(0, 0, 0, 0);
 
             if (fechaSeleccionada < hoy) {
-                alert('No se puede poner una fecha anterior a hoy.')
+                toast.error('No se puede poner una fecha anterior a hoy.');
                 return;
             }
         }
         if (/^\s*$/.test(formData.nombre)) {
-            alert('El nombre no puede ser solo espacios en blanco.');
+            toast.error('El nombre no puede ser solo espacios en blanco.');
             return;
         }
         setFormDataToSave(formData);
@@ -180,6 +182,17 @@ function Crear({ tareas, setTareas }){
                 onConfirm={handleConfirmSave}
                 onCancel={handleCancelSave}
                 data={formDataToSave || {}}
+            />
+            <ToastContainer
+                position="top-center" //Define dónde aparecen las notificaciones en la pantalla
+                autoClose={3000} // Duracion de la notificacion contada en milisegundos
+                hideProgressBar={false} //la barra de progreso
+                newestOnTop // Orden de apilamiento
+                closeOnClick //click para cerrar la notificacion
+                pauseOnFocusLoss //se pausa al cambiar de pestaña
+                draggable //se puede arrastrar la notificacion a los cosatados
+                pauseOnHover //pausa cuando esta encima el mouse
+                theme="dark" // Tema de la notificacion
             />
         </div>
     );
