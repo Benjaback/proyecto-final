@@ -35,7 +35,7 @@ const Layout = ({ tareas, setTareas }) => {
                                         {tarea.fechaVencimiento && (
                                             <p>Vence el: {tarea.fechaVencimiento}</p>
                                         )}
-                                        Descripcion {tarea.descripcion}
+                                        Descripcion: {tarea.descripcion}
                                     </li>
                                 ))}
                             </ul>
