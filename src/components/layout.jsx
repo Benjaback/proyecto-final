@@ -61,7 +61,7 @@ const Layout = ({ tareas, setTareas }) => {
                     </p>
                     <div className="contendor-pendientes bg-gray-700 p-4 rounded-xl border border-gray-600">
                         {tareasPendientes.length === 0 ? (
-                            <p className="text-gray-400 text-center py-4">¡No hay tareas pendientes! 🎉</p>
+                            <p className="text-gray-400 text-center py-4">¡No hay tareas pendientes!</p>
                         ) : (
                             <ul className="space-y-0.5 divide-y divide-gray-600">
                                 {tareasPendientes.map(tarea => (
