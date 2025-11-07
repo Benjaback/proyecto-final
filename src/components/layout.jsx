@@ -22,7 +22,7 @@ const Layout = ({ tareas, setTareas }) => {
                         Tareas Pendientes
                     </h2>
                     <p className="text-gray-300 italic mb-4">
-                        aqui va la vista de inicio
+                        Tareas pendientes que se requieren completar
                     </p>
                     <div className="contendor-pendientes bg-gray-700 p-4 rounded-xl border border-gray-600">
                         {tareasPendientes.length === 0 ? (
@@ -50,7 +50,7 @@ const Layout = ({ tareas, setTareas }) => {
                         Tareas Terminadas
                     </h2>
                     <p className="text-gray-300 italic mb-4">
-                        aqui va la vista de inicio
+                        Tareas concluidas
                     </p>
                     
                     <div className="contendor-terminados bg-gray-700 p-4 rounded-xl border border-gray-600">

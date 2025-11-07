@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TerminalModal from './terminalMODAL';
-import { Terminal } from "lucide-react";
+// import { Terminal } from "lucide-react";
 
 const Terminado = ({ tareas, setTareas }) => {
     const [showModal, setShowModal] = useState(false);
