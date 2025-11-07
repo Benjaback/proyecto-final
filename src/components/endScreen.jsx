@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import TerminalModal from './terminalMODAL';
 // import { Terminal } from "lucide-react";
 
@@ -118,6 +119,14 @@ const Terminado = ({ tareas, setTareas }) => {
                                     <p>
                                         <span className="font-medium text-gray-300">Completada el:</span> {tarea.fechaCompletada}
                                     </p>
+                                </div>
+                                <div className="mt-3">
+                                    <Link 
+                                        to={`/tarea/${tarea.id}`}
+                                        className="text-green-400 hover:text-green-300 hover:underline text-sm font-medium transition duration-200"
+                                    >
+                                        Ver Detalle
+                                    </Link>
                                 </div>
                             </div>
 

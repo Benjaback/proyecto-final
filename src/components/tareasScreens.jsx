@@ -1,4 +1,5 @@
 import React, { useState} from 'react';
+import { Link } from 'react-router-dom';
 import ActionConfirmModal from './ActionConfirmModal';
 
 const TareasScreens = ({ tareas, setTareas }) => {
@@ -108,6 +109,14 @@ const TareasScreens = ({ tareas, setTareas }) => {
                                     <p>
                                         <span className="font-medium text-gray-300">Vence el:</span> {tarea.fechaVencimiento}
                                     </p>
+                                </div>
+                                <div className="mt-3">
+                                    <Link 
+                                        to={`/tarea/${tarea.id}`}
+                                        className="text-indigo-400 hover:text-indigo-300 hover:underline text-sm font-medium transition duration-200"
+                                    >
+                                        Ver Detalle
+                                    </Link>
                                 </div>
                             </div>
                             

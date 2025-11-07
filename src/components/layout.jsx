@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Layout = ({ tareas, setTareas }) => {
     const tareasCompletadas = tareas.filter(t => t.estado === 'completada');
@@ -10,9 +11,12 @@ const Layout = ({ tareas, setTareas }) => {
         return (
             <li key={tarea.id} className={itemClasses}>
                 <div className="flex justify-between items-center">
-                    <p className={`text-lg font-semibold ${colorClass}`}>
+                    <Link 
+                        to={`/tarea/${tarea.id}`}
+                        className={`text-lg font-semibold ${colorClass} hover:underline cursor-pointer transition duration-200`}
+                    >
                         {tarea.nombre}
-                    </p>
+                    </Link>
                     {showPriority && tarea.prioridad && (
                         <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-pink-800 text-pink-200 uppercase">
                             {tarea.prioridad}

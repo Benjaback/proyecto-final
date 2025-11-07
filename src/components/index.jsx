@@ -4,6 +4,7 @@ import TareasScreens from './tareasScreens';
 import Crear from './crear'; 
 import Layout from './layout'; 
 import Terminado from './endScreen';
+import DetalleTarea from './DetalleTarea';
 
 const themeColors = {
     primary: 'text-indigo-400', // El color brillante para el logo y activo
@@ -110,6 +111,7 @@ const AppFooter = () => {
                         <Route path="/tareas" element={<TareasScreens tareas={tareas} setTareas={setTareas} />} />
                         <Route path="/crear" element={<Crear tareas={tareas} setTareas={setTareas} />} />
                         <Route path="/terminado" element={<Terminado tareas={tareas} setTareas={setTareas} />} />
+                        <Route path="/tarea/:id" element={<DetalleTarea tareas={tareas} setTareas={setTareas} />} />
                     </Routes>
                 </div>
                 <AppFooter />
