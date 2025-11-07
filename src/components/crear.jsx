@@ -185,13 +185,13 @@ function Crear({ tareas, setTareas }){
             />
             <ToastContainer
                 position="top-center" //Define dónde aparecen las notificaciones en la pantalla
-                autoClose={3000} // Duracion de la notificacion contada en milisegundos
+                autoClose={3000} // Duracion de la notificacion
                 hideProgressBar={false} //la barra de progreso
                 newestOnTop // Orden de apilamiento
                 closeOnClick //click para cerrar la notificacion
                 pauseOnFocusLoss //se pausa al cambiar de pestaña
                 draggable //se puede arrastrar la notificacion a los cosatados
-                pauseOnHover //pausa cuando esta encima el mouse
+                pauseOnHover //se pausa cuando esta encima el mouse
                 theme="dark" // Tema de la notificacion
             />
         </div>
