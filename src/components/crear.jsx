@@ -116,7 +116,7 @@ function Crear({ tareas, setTareas }){
                         onChange={(e) => handleInputChange(e, 'nombre', 50)}
                         className={inputClasses}
                     />
-                    <small className='text-gray-400 text-xs'>
+                    <small className='text-gray-400 text-xs block text-right -mt-3 mr-2'>
                         {nombreValue.length}/50
                     </small>
                 </div>
@@ -129,7 +129,7 @@ function Crear({ tareas, setTareas }){
                         onChange={(e) => handleInputChange(e, 'tarea', 100)}
                         className={inputClasses}
                     />
-                    <small className='text-gray-400 text-xs'>
+                    <small className='text-gray-400 text-xs block text-right -mt-3 mr-2'>
                         {tareaValue.length}/100
                     </small>
                 </div>
@@ -142,7 +142,7 @@ function Crear({ tareas, setTareas }){
                         onChange={(e) => handleInputChange(e, 'descripcion', 200)}
                         className={inputClasses}
                     />
-                    <small className='text-gray-400 text-xs'>
+                    <small className='text-gray-400 text-xs block text-right -mt-3 mr-2'>
                         {descripcionValue.length}/200
                     </small>
                 </div>
